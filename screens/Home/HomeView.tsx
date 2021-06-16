@@ -18,6 +18,7 @@ export const HomeView = (props: HomeViewProps) => {
   return (
     <SafeAreaView>
       <TextInput
+        testID="query"
         placeholder="Location"
         style={styles.searchBox}
         value={query}
@@ -26,6 +27,7 @@ export const HomeView = (props: HomeViewProps) => {
 
       {locations.map((location: Location) => (
         <Pressable
+          testID={`${location.id}`}
           key={location.id}
           onPress={() => onLocationSelected(location.id)}
           style={styles.result}

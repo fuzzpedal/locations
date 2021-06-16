@@ -26,6 +26,7 @@ export const LocationView = (props: LocationViewProps) => {
         <Text style={styles.title}>{location.name}</Text>
       </View>
       <MapView
+        testID="map"
         style={styles.map}
         initialRegion={{
           latitude: location.latitude,

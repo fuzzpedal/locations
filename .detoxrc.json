@@ -1,0 +1,24 @@
+{
+  "testRunner": "jest",
+  "runnerConfig": "e2e/config.json",
+  "apps": {
+    "ios": {
+      "type": "ios.app",
+      "binaryPath": "ios/Build/Products/Debug-iphonesimulator/Locations.app"
+    }
+  },
+  "devices": {
+    "simulator": {
+      "type": "ios.simulator",
+      "device": {
+        "type": "iPhone 11"
+      }
+    }
+  },
+  "configurations": {
+    "ios": {
+      "device": "simulator",
+      "app": "ios"
+    }
+  }
+}
