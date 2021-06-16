@@ -1,8 +1,11 @@
 export type Location = {
   id: number
   name: string
-  latitude?: number
-  longitude?: number
+}
+
+export type LocationFull = Location & {
+  latitude: number
+  longitude: number
 }
 
 export type RootStackParamList = {
