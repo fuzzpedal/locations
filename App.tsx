@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { HomeScreen } from './screens/Home'
+import { LocationScreen } from "./screens/Location"
 
 
 const Stack = createStackNavigator();
@@ -11,7 +12,8 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Points Of Interest" component={HomeScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Location" component={LocationScreen} initialParams={{ locationId: null }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

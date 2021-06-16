@@ -1,17 +1,28 @@
-import React, { useEffect, useState } from 'react'
-import { Alert } from 'react-native'
+import React, { FC, useEffect, useState } from 'react'
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import { BASE_API_URL } from '../../globals'
-import { Location } from '../../types'
+import { Location, RootStackParamList } from '../../types'
 import { HomeView } from './HomeView'
 
 
-export const HomeScreen = () => {
+type HomeScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'Home'
+>
+
+type HomeScreenProps = {
+  navigation: HomeScreenNavigationProp
+}
+
+export const HomeScreen: FC<HomeScreenProps> = (props: HomeScreenProps) => {
+  const { navigation } = props
+
   const [results, setResults] = useState<Location[]>([])
   const [query, setQuery] = useState<string>("")
 
   const onLocationSelected = (id: number) => {
-    Alert.alert(`${id} selected`)
+    navigation.navigate('Location', { locationId: id })
   }
 
   const onQueryChange = (q: string) => {
@@ -22,7 +33,7 @@ export const HomeScreen = () => {
     if (query.trim().length) {
       fetch(`${BASE_API_URL}?q=${query}`)
         .then(response => response.json())
-        .then((data: Location[]) => setResults(data));
+        .then((data: Location[]) => setResults(data))
     } else {
       setResults([])
     }

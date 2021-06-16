@@ -4,3 +4,8 @@ export type Location = {
   latitude?: number
   longitude?: number
 }
+
+export type RootStackParamList = {
+  Home: undefined
+  Location: { locationId: number }
+}
