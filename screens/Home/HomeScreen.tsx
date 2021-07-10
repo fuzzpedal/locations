@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { BASE_API_URL } from '../../globals'
@@ -15,11 +15,14 @@ type HomeScreenProps = {
   navigation: HomeScreenNavigationProp
 }
 
+
 export const HomeScreen: FC<HomeScreenProps> = (props: HomeScreenProps) => {
   const { navigation } = props
 
   const [results, setResults] = useState<Location[]>([])
   const [query, setQuery] = useState<string>("")
+
+  const lastAbortController = useRef()
 
   const onLocationSelected = (id: number) => {
     navigation.navigate('Location', { locationId: id })
@@ -31,12 +34,32 @@ export const HomeScreen: FC<HomeScreenProps> = (props: HomeScreenProps) => {
 
   useEffect(() => {
     if (query.trim().length) {
-      fetch(`${BASE_API_URL}?q=${query}`)
-        .then(response => response.json())
-        .then((data: Location[]) => setResults(data))
+      if (lastAbortController.current) {
+        lastAbortController.current.abort()
+      }
+
+      const currentAbortController = new AbortController()
+      lastAbortController.current = currentAbortController
+
+      fetch(`${BASE_API_URL}?q=${query}`, {
+        signal: currentAbortController.signal,
+      })
+        .then(response => {
+            return response.json()
+        })
+        .then((data: Location[]) => {
+          if (currentAbortController.signal.aborted) {
+            setResults([])
+            return
+          }
+          setResults(data)
+        }, e => {
+          console.log(e)
+        })
     } else {
       setResults([])
     }
+
   }, [query])
 
   return (

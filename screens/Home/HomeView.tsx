@@ -25,7 +25,7 @@ export const HomeView = (props: HomeViewProps) => {
         onChangeText={onQueryChange}
       />
 
-      {locations.map((location: Location) => (
+      {locations && locations.map((location: Location) => (
         <Pressable
           testID={`${location.id}`}
           key={location.id}
